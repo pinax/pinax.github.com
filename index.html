@@ -56,6 +56,7 @@
         $link.append($("<h2>").text(repo.name));
         $link.append($("<h3>").text(repo.language));
         $link.append($("<p>").text(repoDescription(repo)));
+        $item.append($('<a class="FlattrButton" style="display:none;" rev="flattr;button:compact;" href="' + repoUrl(repo) + '"></a>'));
         $item.appendTo("#repos");
       }
 
@@ -102,9 +103,19 @@
           $.each(repos.slice(0, 3), function (i, repo) {
             addRecentlyUpdatedRepo(repo);
           });
+          
+          (function() {
+            var s = document.createElement('script'), t = document.getElementsByTagName('script')[0];
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = 'http://api.flattr.com/js/0.6/load.js?mode=auto';
+            t.parentNode.insertBefore(s, t);
+          })();
         });
       });
     })(jQuery);
+    </script>
+    <script type="text/javascript">
     </script>
   </head>
   <body>

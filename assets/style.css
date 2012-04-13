@@ -144,7 +144,7 @@ li.repo {
 li.repo > a {
   display: block;
   width: 100%;
-  height: 100%;
+  height: 80%;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
@@ -155,6 +155,10 @@ li.repo a:hover {
 }
 
 li.repo h2, li.repo h3, li.repo p {
+  margin: 10px 15px;
+}
+iframe.FlattrButton {
+  display: block;
   margin: 10px 15px;
 }
 
