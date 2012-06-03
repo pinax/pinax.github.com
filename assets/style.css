@@ -195,3 +195,8 @@ li.repo h3 {
 .repo.python:after {
   border-right-color: #6aad2d;
 }
+
+h2.fork {
+  background: url(fork.png) no-repeat center left;
+  padding: 0 0 0 20px;
+}
