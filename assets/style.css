@@ -166,34 +166,6 @@ li.repo h2 {
   overflow: hidden;
 }
 
-li.repo h3 {
-  font-size: 11px;
-  margin-top: 2px;
-  margin-bottom: 15px;
-  color: #999;
-}
-
-.repo:after {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 0;
-  height: 0;
-  border-bottom: 30px solid transparent;
-  border-left: 30px solid transparent;
-  border-right: 30px solid #0080B0;
-  pointer-events: none;
-}
-
-.repo.javascript:after {
-  border-right-color: #333;
-}
-
-.repo.python:after {
-  border-right-color: #6aad2d;
-}
-
 h2.fork {
   background: url(fork.png) no-repeat center left;
   padding: 0 0 0 20px;
