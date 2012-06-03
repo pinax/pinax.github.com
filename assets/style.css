@@ -66,11 +66,15 @@ a:hover {
 
 div.header {
   height: 200px;
+  background: #EEE;
 }
 
 div.header2 {
   margin-top: 20px;
-  background: #EEE;
+  background: #333;
+}
+div.header2 h1 {
+  color: #EEE;
 }
 
 div.header h1, div.header2 h1, div.header p {
@@ -132,7 +136,7 @@ div.header h1 a {
 }
 
 li.repo {
-  height: 250px;
+  height: 200px;
 }
 
 li.repo > a {
