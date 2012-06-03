@@ -2,8 +2,7 @@
 
 <html>
   <head>
-    <title>James Tauber &mdash; Open Source</title>
- 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin' rel='stylesheet' type='text/css'>
+    <title>Pinax</title>
     <link rel="stylesheet" type="text/css" href="assets/reset.css">
     <link rel="stylesheet" type="text/css" href="assets/grid.css">
     <link rel="stylesheet" type="text/css" href="assets/style.css">
@@ -50,20 +49,41 @@
         $item.appendTo("#recently-updated-repos");
       }
 
-      function addRepo(repo) {
-        var $item = $("<li>").addClass("repo grid-1 " + (repo.language || '').toLowerCase());
-        var $link = $("<a>").attr("href", repoUrl(repo)).appendTo($item);
-        if (repo.fork) {
-          $link.append($('<h2 class="fork">').text(repo.name));
-        } else {
-          $link.append($("<h2>").text(repo.name));
-        }        
-        $link.append($("<h3>").text(repo.language));
-        $link.append($("<p>").text(repoDescription(repo)));
-        $item.appendTo("#repos");
+      function addRepo(repo, target) {
+        if (target) {
+          var $item = $("<li>").addClass("repo grid-1 " + (repo.language || '').toLowerCase());
+          var $link = $("<a>").attr("href", repoUrl(repo)).appendTo($item);
+          if (repo.fork) {
+            $link.append($('<h2 class="fork">').text(repo.name));
+          } else {
+            $link.append($("<h2>").text(repo.name));
+          }        
+          $link.append($("<h3>").text(repo.language));
+          $link.append($("<p>").text(repoDescription(repo)));
+          $item.appendTo(target);
+        }
       }
-
-      $.getJSON("https://api.github.com/users/jtauber/repos?callback=?", function (result) {
+      
+      function repoType(repo) {
+        if (repo.name.indexOf("pinax-theme-") == 0) {
+          return "#themes";
+        } else if (repo.name.indexOf("pinax-project-") == 0) {
+          return "#projects";
+        } else if (repo.name == "symposion") {
+          return "#projects";
+        } else if (repo.name == "pinax.github.com" || repo.name == "code.pinaxproject.com" ||
+          repo.name == "pinaxproject.com" || repo.name == "pinax" || repo.name == "dev_release_builder" ||
+          repo.name == "pinax-buildout" || repo.name == "diff-match-patch" || repo.name == "atom-format"
+          ) {
+          return "#other";
+        } else if (repo.name == "pinax-symposion-project") {
+          return null;
+        } else {
+          return "#apps";
+        }
+      }
+      
+      $.getJSON("https://api.github.com/orgs/pinax/repos?callback=?", function (result) {
         var repos = result.data;
 
         $(function () {
@@ -93,7 +113,7 @@
           });
 
           $.each(repos, function (i, repo) {
-            addRepo(repo);
+            addRepo(repo, repoType(repo));
           });
 
           // Sort by most-recently pushed to.
@@ -103,7 +123,7 @@
             return 0;
           });
 
-          $.each(repos.slice(0, 3), function (i, repo) {
+          $.each(repos.slice(0, 5), function (i, repo) {
             addRecentlyUpdatedRepo(repo);
           });
         });
@@ -115,33 +135,59 @@
   </head>
   <body>
     <div id="wrapper" class="grid clearfix">
-      <div id="main" class="grid-1">
-        <div id="logo"></div>
-        <h1>James Tauber</h1>
-        <h3>Journeyman of Some</h3>
-        <p><a href="http://jtauber.com/">http://jtauber.com/</a></p>
-        <p>
-          <a href="https://twitter.com/jtauber" class="twitter-follow-button">Follow @jtauber</a>
-          <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+      <div id="main" class="grid-4">
+        <h1>Pinax</h1>
+        <p class="main">
+          Pinax is an open-source platform built on the Django Web Framework. By integrating numerous reusable Django apps and providing starter projects and infrastructure tools, Pinax takes care of the things that many sites have in common so you can focus on what makes your site different.
         </p>
+        <p>
+          Pinax has been used for everything from social networks to conference websites, and from intranets to online games.
+        </p>
+        <p class="main">
       </div>
 
-      <div class="grid grid-3">
-        <div id="statistics" class="grid-1 alpha header">
-          <h1>Statistics</h1>
-          <p>
-            <a href="https://github.com/jtauber/repositories"><span id="num-repos">&nbsp;</span> public repos</a>
-          </p>
-          <p>This page generated with code from Twitter.</p>
+      <div class="grid grid-4">
+        <div class="grid-2 alpha header">
+        <p>
+          Pinax provides:
+        </p>
+        <ul>
+          <li><b>standard project layout</b> for consistency and easy deployment</li>
+          <li><b>starter projects</b> that can be used as the basis for any Django website as well as some tailored to community sites, company sites, intranets and sites in closed beta</li>
+          <li><b>reusable apps</b> providing both back-end functionality and user-facing components</li>
+          <li><b>default templates</b> to enable quick prototyping</li>
+        </ul>
         </div>
 
-        <div id="recently-updated" class="grid-2 omega header">
-          <h1>Recently updated <a href="https://github.com/jtauber/repositories">View All on GitHub</a></h1>
+        <div class="grid-2 omega header">
+          <h1>Recently updated <a href="https://github.com/pinax/repositories">View All on GitHub</a></h1>
           <ol id="recently-updated-repos"></ol>
+          <p>
+            <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+            <a href="https://twitter.com/pinaxproject" class="twitter-follow-button">Follow @pinaxproject</a>
+          </p>
         </div>
       </div>
+      
+      <div class="header2 grid-4">
+        <h1>Projects</h1>
+      </div>
+      <ol id="projects"></ol>
 
-      <ol id="repos"></ol>
+      <div class="header2 grid-4">
+        <h1>Themes</h1>
+      </div>
+      <ol id="themes"></ol>
+
+      <div class="header2 grid-4">
+        <h1>Apps</h1>
+      </div>
+      <ol id="apps"></ol>
+
+      <div class="header2 grid-4">
+        <h1>Other</h1>
+      </div>
+      <ol id="other"></ol>
     </div>
     <script type="text/javascript">
       var _gauges = _gauges || [];
@@ -150,7 +196,7 @@
         t.type  = 'text/javascript';
         t.async = true;
         t.id    = 'gauges-tracker';
-        t.setAttribute('data-site-id', '4f7c4470613f5d112800015d');
+        t.setAttribute('data-site-id', '4fcb0c03f5a1f56f63000013');
         t.src = '//secure.gaug.es/track.js';
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(t, s);
