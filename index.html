@@ -10,23 +10,40 @@
     <script type="text/javascript" src="assets/strftime.js"></script>
     <script type="text/javascript">
     (function ($, undefined) {
-
-      // Put custom repo URL's in this object, keyed by repo name.
-      var repoUrls = {
-      };
-
-      function repoUrl(repo) {
-        return repoUrls[repo.name] || repo.html_url;
+      
+      var repo_list = {
+        "pinax/pinax-project-zero": "#projects",
+        "pinax/pinax-project-account": "#projects",
+        "pinax/symposion": "#projects",
+        
+        "pinax/pinax-theme-bootstrap": "#themes",
+        "pinax/pinax-theme-bootstrap-account": "#themes",
+        
+        "pinax/django-announcements": "#apps",
+        "pinax/django-notification": "#apps",
+        "pinax/django-user-accounts": "#apps",
+        "pinax/django-forms-bootstrap": "#apps",
+        "pinax/django-waitinglist": "#apps",
+        
+        "eldarion/django-stripe-payments": "#apps",
+        "eldarion/kaleo": "#apps",
+        "eldarion/metron": "#apps",
+        "eldarion/eventlog": "#apps",
+        "eldarion/bootstrap-ajax": "#apps",
+        "eldarion/phileo": "#apps",
+        "eldarion/anafero": "#apps",
+        "eldarion/marturion": "#apps",
+        "eldarion/django-boxes": "#apps",
+        "eldarion/dialogos": "#apps",
+        "eldarion/agora": "#apps",
+        "eldarion/brabeion": "#apps",
+        "eldarion/agon": "#apps",
+        "eldarion/agon-ratings": "#apps",
+        "eldarion/mailout": "#apps",
+        
+        "pinax/pinax.github.com": "#other"
       }
-
-      // Put custom repo descriptions in this object, keyed by repo name.
-      var repoDescriptions = {
-      };
-
-      function repoDescription(repo) {
-        return repoDescriptions[repo.name] || repo.description;
-      }
-
+      
       function addRecentlyUpdatedRepo(repo) {
         var $item = $("<li>");
 
@@ -52,84 +69,76 @@
       function addRepo(repo, target) {
         if (target) {
           var $item = $("<li>").addClass("repo grid-1");
-          var $link = $("<a>").attr("href", repoUrl(repo)).appendTo($item);
+          var $link = $("<a>").attr("href", repo.html_url).appendTo($item);
           if (repo.fork) {
             $link.append($('<h2 class="fork">').text(repo.name));
           } else {
             $link.append($("<h2>").text(repo.name));
           }        
-          $link.append($("<p>").text(repoDescription(repo)));
+          $link.append($("<p>").text(repo.description));
           $item.appendTo(target);
         }
       }
       
-      function repoType(repo) {
-        if (repo.name.indexOf("pinax-theme-") == 0) {
-          return "#themes";
-        } else if (repo.name.indexOf("pinax-project-") == 0) {
-          return "#projects";
-        } else if (repo.name == "symposion") {
-          return "#projects";
-        } else if (repo.name == "pinax.github.com" || repo.name == "code.pinaxproject.com" ||
-          repo.name == "pinaxproject.com" || repo.name == "pinax" || repo.name == "dev_release_builder" ||
-          repo.name == "pinax-buildout" || repo.name == "diff-match-patch" || repo.name == "atom-format"
-          ) {
-          return "#other";
-        } else if (repo.name == "pinax-symposion-project") {
-          return null;
-        } else {
-          return "#apps";
-        }
-      }
-      
-      $.getJSON("https://api.github.com/orgs/pinax/repos?callback=?", function (result) {
-        var repos = result.data;
-
-        $(function () {
-          $("#num-repos").text(repos.length);
-
-          // Convert pushed_at to Date.
-          $.each(repos, function (i, repo) {
-            repo.pushed_at = new Date(repo.pushed_at);
-
-            var weekHalfLife  = 1.146 * Math.pow(10, -9);
-
-            var pushDelta    = (new Date) - Date.parse(repo.pushed_at);
-            var createdDelta = (new Date) - Date.parse(repo.created_at);
-
-            var weightForPush = 1;
-            var weightForWatchers = 1.314 * Math.pow(10, 7);
-
-            repo.hotness = weightForPush * Math.pow(Math.E, -1 * weekHalfLife * pushDelta);
-            repo.hotness += weightForWatchers * repo.watchers / createdDelta;
-          });
-
-          // Sort by highest # of watchers.
-          repos.sort(function (a, b) {
-            if (a.hotness < b.hotness) return 1;
-            if (b.hotness < a.hotness) return -1;
-            return 0;
-          });
-
-          $.each(repos, function (i, repo) {
-            addRepo(repo, repoType(repo));
-          });
-
-          // Sort by most-recently pushed to.
-          repos.sort(function (a, b) {
-            if (a.pushed_at < b.pushed_at) return 1;
-            if (b.pushed_at < a.pushed_at) return -1;
-            return 0;
-          });
-
-          $.each(repos.slice(0, 5), function (i, repo) {
-            addRecentlyUpdatedRepo(repo);
-          });
+      function addRepos(org, repos, page) {
+        repos = repos || [];
+        page = page || 1;
+        
+        var uri = "https://api.github.com/orgs/" + org + "/repos?callback=?"
+                + "&per_page=100"
+                + "&page=" + page;
+        $.getJSON(uri, function (result) {
+          if (result.data && result.data.length > 0) {
+            $.each(result.data, function(i, repo) {
+              if (repo_list[org + "/" + repo.name]) {
+                repos.push(repo);
+              }
+            })
+            addRepos(org, repos, page + 1);
+          }
+          else {
+            $.each(repos, function (i, repo) {
+              repo.pushed_at = new Date(repo.pushed_at);
+              
+              var weekHalfLife  = 1.146 * Math.pow(10, -9);
+              
+              var pushDelta    = (new Date) - Date.parse(repo.pushed_at);
+              var createdDelta = (new Date) - Date.parse(repo.created_at);
+              
+              var weightForPush = 1;
+              var weightForWatchers = 1.314 * Math.pow(10, 7);
+              
+              repo.hotness = weightForPush * Math.pow(Math.E, -1 * weekHalfLife * pushDelta);
+              repo.hotness += weightForWatchers * repo.watchers / createdDelta;
+            });
+            
+            // Sort by highest # of watchers.
+            repos.sort(function (a, b) {
+              if (a.hotness < b.hotness) return 1;
+              if (b.hotness < a.hotness) return -1;
+              return 0;
+            });
+            
+            $.each(repos, function (i, repo) {
+                addRepo(repo, repo_list[org + "/" + repo.name]);
+            });
+            
+            // Sort by most-recently pushed to.
+            repos.sort(function (a, b) {
+              if (a.pushed_at < b.pushed_at) return 1;
+              if (b.pushed_at < a.pushed_at) return -1;
+              return 0;
+            });
+            
+            $.each(repos.slice(0, 3), function (i, repo) {
+              addRecentlyUpdatedRepo(repo);
+            });
+          }
         });
-      });
+      }
+      addRepos("pinax");
+      addRepos("eldarion");
     })(jQuery);
-    </script>
-    <script type="text/javascript">
     </script>
   </head>
   <body>
@@ -148,7 +157,7 @@
       <div class="grid grid-4">
         <div class="grid-2 alpha header">
         <p>
-          Pinax provides:
+         Pinax provides:
         </p>
         <ul>
           <li><b>standard project layout</b> for consistency and easy deployment</li>
@@ -159,7 +168,7 @@
         </div>
 
         <div class="grid-2 omega header">
-          <h1>Recently updated <a href="https://github.com/pinax/repositories">View All on GitHub</a></h1>
+          <h1>Recently updated</h1>
           <ol id="recently-updated-repos"></ol>
           <p>
             <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
@@ -167,6 +176,8 @@
           </p>
         </div>
       </div>
+      
+      <ul id="debug"></ul>
       
       <div class="header2 grid-4">
         <h1>Projects</h1>

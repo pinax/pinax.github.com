@@ -39,7 +39,7 @@ a:hover {
 #main {
   color: #DEF;
   height: 235px;
-  background: url(/assets/img/banner-home.png) repeat-x;
+  background: url(img/banner-home.png) repeat-x;
 }
 
 #main, div.header, div.header2, div.header3, li.repo {
@@ -55,7 +55,7 @@ a:hover {
   margin: 10px 15px 0;
   font-size: 24pt;
   height: 110px;
-  background: url(/assets/img/pinax_logo_lg.png) no-repeat top center;
+  background: url(img/pinax_logo_lg.png) no-repeat top center;
 }
 
 #main p {
@@ -65,7 +65,7 @@ a:hover {
 }
 
 div.header {
-  height: 200px;
+  height: 230px;
   background: #EEE;
 }
 
@@ -91,7 +91,7 @@ div.header p {
 }
 div.header ul {
   list-style: disc;
-  font-size: 10pt;
+  font-size: 11pt;
   margin: 10px 15px 10px 40px;
 }
 
