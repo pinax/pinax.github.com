@@ -10,21 +10,25 @@
     <script type="text/javascript" src="assets/strftime.js"></script>
     <script type="text/javascript">
     (function ($, undefined) {
-      
+
       var repo_list = {
         "pinax/pinax-project-zero": "#projects",
         "pinax/pinax-project-account": "#projects",
+        "pinax/pinax-project-socialauth": "#projects",
+        "pinax/pinax-project-teams": "#projects",
+        "pinax/pinax-project-blog": "#projects",
+        "pinax/pinax-project-forums": "#projects",
         "pinax/symposion": "#projects",
-        
+
         "pinax/pinax-theme-bootstrap": "#themes",
         "pinax/pinax-theme-bootstrap-account": "#themes",
-        
+
         "pinax/django-announcements": "#apps",
         "pinax/django-notification": "#apps",
         "pinax/django-user-accounts": "#apps",
         "pinax/django-forms-bootstrap": "#apps",
         "pinax/django-waitinglist": "#apps",
-        
+
         "eldarion/django-stripe-payments": "#apps",
         "eldarion/kaleo": "#apps",
         "eldarion/metron": "#apps",
@@ -40,10 +44,10 @@
         "eldarion/agon": "#apps",
         "eldarion/agon-ratings": "#apps",
         "eldarion/mailout": "#apps",
-        
+
         "pinax/pinax.github.com": "#other"
       }
-      
+
       function addRecentlyUpdatedRepo(repo) {
         var $item = $("<li>");
 
@@ -74,16 +78,16 @@
             $link.append($('<h2 class="fork">').text(repo.name));
           } else {
             $link.append($("<h2>").text(repo.name));
-          }        
+          }
           $link.append($("<p>").text(repo.description));
           $item.appendTo(target);
         }
       }
-      
+
       function addRepos(org, repos, page) {
         repos = repos || [];
         page = page || 1;
-        
+
         var uri = "https://api.github.com/orgs/" + org + "/repos?callback=?"
                 + "&per_page=100"
                 + "&page=" + page;
@@ -99,37 +103,37 @@
           else {
             $.each(repos, function (i, repo) {
               repo.pushed_at = new Date(repo.pushed_at);
-              
+
               var weekHalfLife  = 1.146 * Math.pow(10, -9);
-              
+
               var pushDelta    = (new Date) - Date.parse(repo.pushed_at);
               var createdDelta = (new Date) - Date.parse(repo.created_at);
-              
+
               var weightForPush = 1;
               var weightForWatchers = 1.314 * Math.pow(10, 7);
-              
+
               repo.hotness = weightForPush * Math.pow(Math.E, -1 * weekHalfLife * pushDelta);
               repo.hotness += weightForWatchers * repo.watchers / createdDelta;
             });
-            
+
             // Sort by highest # of watchers.
             repos.sort(function (a, b) {
               if (a.hotness < b.hotness) return 1;
               if (b.hotness < a.hotness) return -1;
               return 0;
             });
-            
+
             $.each(repos, function (i, repo) {
                 addRepo(repo, repo_list[org + "/" + repo.name]);
             });
-            
+
             // Sort by most-recently pushed to.
             repos.sort(function (a, b) {
               if (a.pushed_at < b.pushed_at) return 1;
               if (b.pushed_at < a.pushed_at) return -1;
               return 0;
             });
-            
+
             $.each(repos.slice(0, 3), function (i, repo) {
               addRecentlyUpdatedRepo(repo);
             });
@@ -176,9 +180,9 @@
           </p>
         </div>
       </div>
-      
+
       <ul id="debug"></ul>
-      
+
       <div class="header2 grid-4">
         <h1>Projects</h1>
       </div>
