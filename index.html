@@ -12,46 +12,42 @@
     (function ($, undefined) {
 
       var repo_list = {
-        "pinax/pinax-project-zero": "#projects",
-        "pinax/pinax-project-account": "#projects",
-        "pinax/pinax-project-socialauth": "#projects",
-        "pinax/pinax-project-teams": "#projects",
-        "pinax/pinax-project-blog": "#projects",
-        "pinax/pinax-project-forums": "#projects",
-        "pinax/pinax-project-wiki": "#projects",
-        "pinax/symposion": "#projects",
-
-        "pinax/pinax-theme-bootstrap": "#themes",
-        "pinax/pinax-theme-bootstrap-account": "#themes",
-
-        "pinax/django-announcements": "#apps",
-        "pinax/django-notification": "#apps",
-        "pinax/django-user-accounts": "#apps",
-        "pinax/django-forms-bootstrap": "#apps",
-        "pinax/django-waitinglist": "#apps",
-        "pinax/pinax-wiki": "#apps",
-        "pinax/django-flag": "#apps",
-        "pinax/django-mailer": "#apps",
-        "pinax/pinax-teams": "#apps",
-
-        "eldarion/django-stripe-payments": "#apps",
-        "eldarion/kaleo": "#apps",
-        "eldarion/metron": "#apps",
-        "eldarion/eventlog": "#apps",
-        "eldarion/bootstrap-ajax": "#apps",
-        "eldarion/phileo": "#apps",
-        "eldarion/anafero": "#apps",
-        "eldarion/marturion": "#apps",
-        "eldarion/django-boxes": "#apps",
-        "eldarion/dialogos": "#apps",
-        "eldarion/agora": "#apps",
-        "eldarion/brabeion": "#apps",
-        "eldarion/agon": "#apps",
-        "eldarion/agon-ratings": "#apps",
-        "eldarion/mailout": "#apps",
-
-        "pinax/pinax.github.com": "#other",
-        "pinax/pinax-starter-app": "#other"
+        "pinax/pinax-project-zero": {target: "#projects", badges: false},
+        "pinax/pinax-project-account": {target: "#projects", badges: false},
+        "pinax/pinax-project-socialauth": {target: "#projects", badges: false},
+        "pinax/pinax-project-teams": {target: "#projects", badges: false},
+        "pinax/pinax-project-blog": {target: "#projects", badges: false},
+        "pinax/pinax-project-forums": {target: "#projects", badges: false},
+        "pinax/pinax-project-wiki": {target: "#projects", badges: false},
+        "pinax/symposion": {target: "#projects", badges: true},
+        "pinax/pinax-theme-bootstrap": {target: "#themes", badges: false},
+        "pinax/pinax-theme-bootstrap-account": {target: "#themes", badges: false},
+        "pinax/django-announcements": {target: "#apps", badges: true},
+        "pinax/django-notification": {target: "#apps", badges: true},
+        "pinax/django-user-accounts": {target: "#apps", badges: true},
+        "pinax/django-forms-bootstrap": {target: "#apps", badges: false},
+        "pinax/django-waitinglist": {target: "#apps", badges: true},
+        "pinax/pinax-wiki": {target: "#apps", badges: true},
+        "pinax/django-flag": {target: "#apps", badges: true},
+        "pinax/django-mailer": {target: "#apps", badges: true},
+        "pinax/pinax-teams": {target: "#apps", badges: true},
+        "pinax/pinax-forums": {target: "#apps", badges: true},
+        "eldarion/django-stripe-payments": {target: "#apps", badges: true},
+        "eldarion/kaleo": {target: "#apps", badges: true},
+        "eldarion/metron": {target: "#apps", badges: true},
+        "eldarion/eventlog": {target: "#apps", badges: true},
+        "eldarion/eldarion-ajax": {target: "#apps", badges: true},
+        "eldarion/phileo": {target: "#apps", badges: true},
+        "eldarion/marturion": {target: "#apps", badges: true},
+        "eldarion/django-boxes": {target: "#apps", badges: true},
+        "eldarion/dialogos": {target: "#apps", badges: true},
+        "eldarion/anafero": {target: "#apps", badges: true},
+        "eldarion/brabeion": {target: "#apps", badges: true},
+        "eldarion/agon": {target: "#apps", badges: true},
+        "eldarion/agon-ratings": {target: "#apps", badges: true},
+        "eldarion/mailout": {target: "#apps", badges: false},
+        "pinax/pinax.github.com": {target: "#other", badges: false},
+        "pinax/pinax-starter-app": {target: "#other", badges: false},
       }
 
       function addRecentlyUpdatedRepo(repo) {
@@ -76,8 +72,26 @@
         $item.appendTo("#recently-updated-repos");
       }
 
-      function addRepo(repo, target) {
-        if (target) {
+      function travisBadge(org, project) {
+        var $img = $("<img>").attr("src", "https://img.shields.io/travis/" + org + "/" + project + ".svg"),
+            $link = $("<a>").attr("class", "badge-link").attr("href", "https://travis-ci.org/" + org + "/" + project).append($img);
+        return $link;
+      }
+
+      function coverallsBadge(org, project) {
+        var $img = $("<img>").attr("src", "https://img.shields.io/coveralls/" + org + "/" + project + ".svg"),
+            $link = $("<a>").attr("class", "badge-link").attr("href", "https://coveralls.io/r/" + org + "/" + project).append($img);
+        return $link;
+      }
+
+      function pypiBadge(org, project) {
+        var $img = $("<img>").attr("src", "https://img.shields.io/pypi/v/" + project + ".svg"),
+            $link = $("<a>").attr("class", "badge-link").attr("href", "https://pypi.python.org/pypi/" + project).append($img);
+        return $link;
+      }
+
+      function addRepo(repo, opts) {
+        if (opts.target) {
           var $item = $("<li>").addClass("repo grid-1");
           var $link = $("<a>").attr("href", repo.html_url).appendTo($item);
           if (repo.fork) {
@@ -86,7 +100,14 @@
             $link.append($("<h2>").text(repo.name));
           }
           $link.append($("<p>").text(repo.description));
-          $item.appendTo(target);
+          if (opts.badges) {
+            $item.append(travisBadge(repo.owner.login, repo.name));
+            if (repo.name !== "eldarion-ajax") {
+              $item.append(coverallsBadge(repo.owner.login, repo.name));
+              $item.append(pypiBadge(repo.owner.login, repo.name));
+            }
+          }
+          $item.appendTo(opts.target);
         }
       }
 
@@ -98,6 +119,10 @@
                 + "&per_page=100"
                 + "&page=" + page;
         $.getJSON(uri, function (result) {
+          if (result.data.message) {
+            console.log(result.data.message);
+            console.log("\tIt will be reset at", new Date(result.meta["X-RateLimit-Reset"] * 1000));
+          }
           if (result.data && result.data.length > 0) {
             $.each(result.data, function(i, repo) {
               if (repo_list[org + "/" + repo.name]) {

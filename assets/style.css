@@ -142,10 +142,14 @@ li.repo {
 li.repo > a {
   display: block;
   width: 100%;
-  height: 100%;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
+}
+
+li.repo > a.badge-link {
+  display: inline;
+  margin: 0 15px;
 }
 
 li.repo a:hover {
