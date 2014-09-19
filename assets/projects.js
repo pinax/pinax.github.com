@@ -1,6 +1,7 @@
 var Pinax = Pinax || {};
 
 Pinax.Repositories = {
+  "pinax/metron": {target: "#apps", badges: true},
   "pinax/pinax-project-zero": {target: "#projects", badges: false},
   "pinax/pinax-project-account": {target: "#projects", badges: false},
   "pinax/pinax-project-socialauth": {target: "#projects", badges: false},
@@ -24,7 +25,6 @@ Pinax.Repositories = {
   "pinax/pinax-forums": {target: "#apps", badges: true},
   "eldarion/django-stripe-payments": {target: "#apps", badges: true},
   "eldarion/kaleo": {target: "#apps", badges: true},
-  "eldarion/metron": {target: "#apps", badges: true},
   "eldarion/eventlog": {target: "#apps", badges: true},
   "eldarion/eldarion-ajax": {target: "#apps", badges: true},
   "eldarion/phileo": {target: "#apps", badges: true},
