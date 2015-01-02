@@ -1,6 +1,7 @@
 var Pinax = Pinax || {};
 
 Pinax.Repositories = {
+  "pinax/biblion": {target: "#apps", badges: true},
   "pinax/metron": {target: "#apps", badges: true},
   "pinax/phileo": {target: "#apps", badges: true},
   "pinax/pinax-project-zero": {target: "#projects", badges: false},
