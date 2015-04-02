@@ -114,7 +114,8 @@ var Pinax = Pinax || {};
           return 0;
         });
 
-        $.each(repos.slice(0, 3), function (i, repo) {
+        $.each(repos.slice(0, 6), function (i, repo) {
+          console.log("Adding", i, repo);
           Pinax.addRecentlyUpdatedRepo(repo);
         });
       }
