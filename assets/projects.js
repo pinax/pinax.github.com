@@ -1,6 +1,7 @@
 var Pinax = Pinax || {};
 
 Pinax.Repositories = {
+  "pinax/pinax-eventlog": {target: "#apps", badges: true},
   "pinax/pinax-blog": {target: "#apps", badges: true},
   "pinax/metron": {target: "#apps", badges: true},
   "pinax/phileo": {target: "#apps", badges: true},
@@ -33,7 +34,6 @@ Pinax.Repositories = {
   "pinax/pinax-teams": {target: "#apps", badges: true},
   "pinax/pinax-forums": {target: "#apps", badges: true},
   "eldarion/kaleo": {target: "#apps", badges: true},
-  "eldarion/eventlog": {target: "#apps", badges: true},
   "eldarion/eldarion-ajax": {target: "#apps", badges: true},
   "eldarion/django-boxes": {target: "#apps", badges: true},
   "eldarion/dialogos": {target: "#apps", badges: true},
