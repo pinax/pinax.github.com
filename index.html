@@ -8,14 +8,11 @@
     <link rel="stylesheet" type="text/css" href="assets/style.css">
     <script type="text/javascript" src="assets/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="assets/strftime.js"></script>
-    <script type="text/javascript" src="assets/app.js"></script>
-    <script type="text/javascript" src="assets/projects.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            Pinax.addRepos("pinax");
-            //Pinax.addRepos("eldarion");
-        });
-    </script>
+    <style media="screen">
+        .__slackin {
+            height: 185px!important;
+        }
+    </style>
   </head>
   <body>
     <div id="wrapper" class="grid clearfix">
@@ -44,8 +41,13 @@
         </div>
 
         <div class="grid-2 omega header">
-          <h1>Recently updated</h1>
-          <ol id="recently-updated-repos"></ol>
+          <h1>Docs / Blog / Slack / Twitter</h1>
+          <p>
+              <a href="http://blog.pinaxproject.com">Blog</a>
+          </p>
+          <p>
+              <a href="http://pinaxproject.com/pinax/">Docs</a>
+          </p>
           <p>
             <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
             <a href="https://twitter.com/pinaxproject" class="twitter-follow-button">Follow @pinaxproject</a>
@@ -55,28 +57,6 @@
           </p>
         </div>
       </div>
-
-      <ul id="debug"></ul>
-
-      <div class="header2 grid-4">
-        <h1>Projects</h1>
-      </div>
-      <ol id="projects"></ol>
-
-      <div class="header2 grid-4">
-        <h1>Themes</h1>
-      </div>
-      <ol id="themes"></ol>
-
-      <div class="header2 grid-4">
-        <h1>Apps</h1>
-      </div>
-      <ol id="apps"></ol>
-
-      <div class="header2 grid-4">
-        <h1>Other</h1>
-      </div>
-      <ol id="other"></ol>
     </div>
     <script type="text/javascript">
       var _gauges = _gauges || [];
