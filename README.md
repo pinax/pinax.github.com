@@ -12,22 +12,21 @@ This collection can be found at http://pinaxproject.com.
 
 pinax.github.com
 ------------------
-pinax.github.com is the code behind the [Pinax Project website](http://pinaxproject.com).
+`pinax.github.com` is the code behind the [Pinax Project website](http://pinaxproject.com).
 
 
 Documentation
 --------------
 
-The pinax.github.com documentation is currently under construction. If you would like to help us write 
-documentation, please join our Pinax Project Slack channel and let us know! The Pinax documentation is 
+The `pinax.github.com` documentation is currently under construction. If you would like to help us write 
+documentation, please join our Pinax Project Slack team and let us know! The Pinax documentation is 
 available at http://pinaxproject.com/pinax/.
 
 
 Contribute
 ----------------
 
-See our [How to Contribute](http://pinaxproject.com/pinax/how_to_contribute/) section for an overview on how contributing 
-to Pinax works. For concrete contribution ideas, please see our 
+See [this blog post](http://blog.pinaxproject.com/2016/02/26/recap-february-pinax-hangout/) including a video, or our [How to Contribute](http://pinaxproject.com/pinax/how_to_contribute/) section for an overview on how contributing to Pinax works. For concrete contribution ideas, please see our 
 [Ways to Contribute/What We Need Help With](http://pinaxproject.com/pinax/ways_to_contribute/) section.
 
 In case of any questions, we would recommend for you to [join our Pinax Slack team](http://slack.pinaxproject.com) and 
